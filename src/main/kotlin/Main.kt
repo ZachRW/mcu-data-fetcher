@@ -1,4 +1,4 @@
-import kotlinx.serialization.encodeToString as myJsonEncode
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
 
@@ -13,7 +13,15 @@ suspend fun main() {
             client.getMoviesInCategory(upcomingMoviesCategory)
     println("Data fetched")
 
-    val movieReleases = movies.map(Movie::toMovieRelease)
+    val movieReleases = TimelineData(
+        listOf(
+            Series(
+                listOf(),
+                movies.filter { it.releases.isNotEmpty() }
+                    .map(Movie::toEvent)
+            )
+        )
+    )
 
-    File("out/mcuData.txt").writeText(Json.myJsonEncode(movieReleases))
+    File("out/mcuData.json").writeText(Json.encodeToString(movieReleases))
 }

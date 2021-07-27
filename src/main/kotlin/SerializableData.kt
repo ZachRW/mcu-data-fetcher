@@ -2,9 +2,31 @@ import kotlinx.serialization.Serializable
 import java.time.LocalDate
 
 @Serializable
-data class MovieRelease(
-    val title: String,
-    val date: Date? = null
+data class TimelineData(
+    val seriesList: List<Series>
+) {
+    companion object {
+        const val path = "/timelineData"
+    }
+}
+
+@Serializable
+data class Series(
+    val timeRanges: List<TimeRange>,
+    val events: List<Event>
+)
+
+@Serializable
+data class TimeRange(
+    val name: String,
+    val start: Date,
+    val end: Date
+)
+
+@Serializable
+data class Event(
+    val name: String,
+    val date: Date
 )
 
 @Serializable

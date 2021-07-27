@@ -1,3 +1,4 @@
+import java.lang.IllegalStateException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -6,9 +7,9 @@ data class Movie(
     val title: String,
     val releases: List<Release>
 ) {
-    fun toMovieRelease(): MovieRelease {
+    fun toEvent(): Event {
         if (releases.isEmpty()) {
-            return MovieRelease(title)
+            throw IllegalStateException("""Movie "$title" does not have any releases.""")
         }
 
         val releasesBySmallText = mutableMapOf<String, LocalDate>()
@@ -22,7 +23,7 @@ data class Movie(
                 ?: releasesBySmallText["U.S."]
                 ?: releases.first().date
 
-        return MovieRelease(title, releaseDate.toDate())
+        return Event(title, releaseDate.toDate())
     }
 
     companion object {
