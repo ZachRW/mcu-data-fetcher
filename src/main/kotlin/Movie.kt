@@ -6,6 +6,25 @@ data class Movie(
     val title: String,
     val releases: List<Release>
 ) {
+    fun toMovieRelease(): MovieRelease {
+        if (releases.isEmpty()) {
+            return MovieRelease(title)
+        }
+
+        val releasesBySmallText = mutableMapOf<String, LocalDate>()
+        for ((date, smallText) in releases.reversed()) {
+            releasesBySmallText[smallText] = date
+        }
+
+        val releaseDate: LocalDate =
+            releasesBySmallText[""]
+                ?: releasesBySmallText["international"]
+                ?: releasesBySmallText["U.S."]
+                ?: releases.first().date
+
+        return MovieRelease(title, releaseDate.toDate())
+    }
+
     companion object {
         private val titleRegex = Regex("""^\|title = ''(.+)''$""", RegexOption.MULTILINE)
         private val releasesRegex = Regex("""^\|release = (.+)$""", RegexOption.MULTILINE)
