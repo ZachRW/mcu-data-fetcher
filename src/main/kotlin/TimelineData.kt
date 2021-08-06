@@ -1,40 +1,36 @@
 import kotlinx.serialization.Serializable
-import java.time.LocalDate
 
 @Serializable
 data class TimelineData(
     val seriesList: List<Series>
 ) {
     companion object {
-        const val path = "/timelineData"
+        const val path = "/data/mcu.json"
     }
 }
 
 @Serializable
 data class Series(
-    val timeRanges: List<TimeRange>,
+    val namedDateRanges: List<NamedDateRange>,
     val events: List<Event>
 )
 
 @Serializable
-data class TimeRange(
+data class NamedDateRange(
     val name: String,
-    val start: Date,
-    val end: Date
+    val start: CommonDate,
+    val end: CommonDate
 )
 
 @Serializable
 data class Event(
     val name: String,
-    val date: Date
+    val date: CommonDate
 )
 
 @Serializable
-data class Date(
+data class CommonDate(
     val year: Int,
     val month: Int,
     val day: Int
 )
-
-fun LocalDate.toDate() =
-    Date(year, monthValue, dayOfMonth)

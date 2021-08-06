@@ -23,7 +23,7 @@ data class Movie(
                 ?: releasesBySmallText["U.S."]
                 ?: releases.first().date
 
-        return Event(title, releaseDate.toDate())
+        return Event(title, releaseDate.toCommonDate())
     }
 
     companion object {

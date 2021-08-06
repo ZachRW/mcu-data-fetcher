@@ -23,5 +23,5 @@ suspend fun main() {
         )
     )
 
-    File("out/mcuData.json").writeText(Json.encodeToString(movieReleases))
+    File("out/mcu.json").writeText(Json.encodeToString(movieReleases))
 }
